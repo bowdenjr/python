@@ -39,13 +39,51 @@ a_powerlist = []
 b_powerlist = []
 
 for x in xrange(a_powers):
-    a_powerlist.append(raw_input("Enter your power %d?" % (x+1)))  # check its a string in the list
+    a_powerlist.append(raw_input("Enter your power (%d)?" % (x + 1)).upper())  # should check its a string in the list
 
 for x in xrange(b_powers):
-    b_powerlist.append(raw_input("Enter your opponent's power %d?" % (x+1)))
+    b_powerlist.append(raw_input("Enter your opponent's power (%d)?" % (x + 1)).upper())
 
-# Look up inputs in table a1>b1, a1>b2, a1>b3, a2>b1, a2>b2 etc.
+# Return position number in the power list table, then lookup those pair in the multiplier table
+
+powerlist = ["NORMAL", "FIRE", "WATER", "ELECTRIC", "GRASS", "ICE", "FIGHTING", "POISON", "GROUND", "FLYING", "PSYCHIC",
+             "BUG", "ROCK", "GHOST", "DRAGON", "DARK", "STEEL", "FAIRY"]
+
+for x in xrange(a_powers):
+    print powerlist.index(a_powerlist[x])
+
+for x in xrange(b_powers):
+    print powerlist.index(b_powerlist[x])
 
 
+multiplier_table = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5, 0, 1, 1, 0.5, 1],
+                    [1,	0.5, 0.5, 1, 2, 2, 1, 1, 1, 1, 1, 2, 0.5, 1, 0.5, 1, 2, 1],
+                    [1,	2, 0.5,	1,	0.5, 1,	1,	1,	2,	1,	1,	1,	2, 1, 0.5, 1,	1,	1],
+                    [1,	1,	2,	0.5,	0.5,	1,	1,	1,	0,	2,	1,	1,	1,	1, 0.5, 1,	1,	1],
+                    [1,	0.5,	2,	1,	0.5, 1, 1, 0.5, 2, 0.5, 1,	0.5, 2, 1, 0.5, 1, 0.5,	1],
+                    [1,	0.5,	0.5,	1,	2,	0.5, 1,	1,	2,	2,	1,	1,	1,	1,	2,	1,	0.5, 1],
+                    [2,	1,	1,	1,	1,	2,	1,	0.5,	1,	0.5,	0.5,	0.5,	2,	0,	1,	2,	2,	0.5],
+                    [1,	1,	1,	1,	2,	1,	1,	0.5,	0.5,	1,	1,	1,	0.5,	0.5,	1,	1,	0,	2],
+                    [1,	2,	1,	2,	0.5,	1,	1,	2,	1,	0,	1,	0.5,	2,	1,	1,	1,	2,	1],
+                    [1,	1,	1,	0.5,	2,	1,	2,	1,	1,	1,	1,	2,	0.5,	1,	1,	1,	0.5,	1],
+                    [1,	1,	1,	1,	1,	1,	2,	2,	1,	1,	0.5,	1,	1,	1,	1,	0,	0.5,	1],
+                    [1,	0.5,	1,	1,	2,	1,	0.5, 0.5, 1,	0.5,	2,	1,	1,	0.5,	1,	2,	0.5,	0.5],
+                    [1,	2,	1,	1,	1,	2,	0.5,	1,	0.5,	2,	1,	2,	1,	1,	1,	1,	0.5,	1],
+                    [0,	1,	1,	1,	1,	1,	1,	1,	1,	1,	2,	1,	1,	2,	1,	0.5, 1,	1],
+                    [1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	2,	1,	0.5,	0],
+                    [1,	1,	1,	1,	1,	1,	0.5,	1,	1,	1,	2,	1,	1,	2,	1,	0.5,	1,	0.5],
+                    [1,	0.5,	0.5,	0.5,	1,	2,	1,	1,	1,	1,	1,	1,	2,	1,	1,	1,	0.5, 2],
+                    [1,	0.5,	1,	1,	1,	1,	2, 0.5, 1,	1,	1,	1,	1,	1,	2,	2,	0.5, 1]]
 
+output_mult = 1
+
+# Use a_powerlist iteratively for each defense power, and return the multiplier
 # Multiply those lookups and output
+
+for x in xrange(b_powers):
+    for y in xrange(a_powers):
+        output_mult *= multiplier_table[powerlist.index(a_powerlist[y])][powerlist.index(b_powerlist[x])]
+
+print "Your multiplier is %r" %output_mult
+
+
